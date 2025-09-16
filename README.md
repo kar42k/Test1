@@ -1,81 +1,251 @@
-# Simple Calculator Website
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-A beautiful, responsive web calculator that adds two numbers together with a modern glassmorphism design.
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-## Features
+        .calculator-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
 
-- **Clean Modern Design**: Glassmorphism UI with gradient backgrounds and blur effects
-- **Responsive Layout**: Works perfectly on desktop, tablet, and mobile devices
-- **Interactive Elements**: Smooth animations and hover effects
-- **Input Validation**: Handles invalid inputs gracefully with error messages
-- **Real-time Feedback**: Visual indicators for valid inputs
-- **Accessibility**: Proper labels and semantic HTML structure
+        .calculator-container:hover {
+            transform: translateY(-5px);
+        }
 
-## How to Use
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
 
-1. Enter the first number in the "First Number" field
-2. Enter the second number in the "Second Number" field
-3. Click the "Add Numbers" button
-4. The result will appear below with a smooth animation
+        .input-group {
+            margin-bottom: 20px;
+        }
 
-## Technologies Used
+        label {
+            display: block;
+            color: white;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
 
-- **HTML5**: Semantic structure and form handling
-- **CSS3**: Modern styling with glassmorphism effects, gradients, and animations
-- **JavaScript**: Form validation, event handling, and dynamic content updates
+        input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            transition: all 0.3s ease;
+            outline: none;
+        }
 
-## File Structure
+        input[type="number"]:focus {
+            background: white;
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
 
-```
-calculator-website/
-├── index.html          # Main HTML file with embedded CSS and JavaScript
-└── README.md          # This documentation file
-```
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-## Getting Started
+        button:hover {
+            background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
 
-### Option 1: Direct Usage
-1. Download the `index.html` file
-2. Open it in any modern web browser
-3. Start calculating!
+        button:active {
+            transform: translateY(0);
+        }
 
-### Option 2: Local Development
-1. Clone this repository
-2. Navigate to the project directory
-3. Open `index.html` in your preferred browser
-4. Or use a local server like Live Server in VS Code
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
 
-### Option 3: Deploy to GitHub Pages
-1. Push the code to your GitHub repository
-2. Go to repository Settings > Pages
-3. Select "Deploy from a branch" and choose your main branch
-4. Your calculator will be live at `https://yourusername.github.io/repository-name`
+        .result-label {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
 
-## Browser Support
+        .result-value {
+            color: #ffd700;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
 
-This calculator works on all modern browsers including:
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
 
-## Customization
+        .error {
+            color: #ff4757;
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+        }
 
-The design uses CSS custom properties and modern features. You can easily customize:
+        .success {
+            animation: slideIn 0.5s ease-out;
+        }
 
-- **Colors**: Modify the gradient values in the CSS
-- **Animations**: Adjust timing and effects in the CSS animations
-- **Layout**: Change padding, margins, and sizing
-- **Functionality**: Extend the JavaScript to add more operations
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-## Contributing
+        @media (max-width: 480px) {
+            .calculator-container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            input[type="number"], button {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <h1>✨ Calculator</h1>
+        
+        <form id="calculatorForm">
+            <div class="input-group">
+                <label for="number1">First Number:</label>
+                <input type="number" id="number1" step="any" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="number2">Second Number:</label>
+                <input type="number" id="number2" step="any" required>
+            </div>
+            
+            <button type="submit">Add Numbers</button>
+        </form>
+        
+        <div id="result" class="result" style="display: none;">
+            <div class="result-label">Result:</div>
+            <div id="resultValue" class="result-value">0</div>
+        </div>
+    </div>
 
-Feel free to fork this project and submit pull requests for any improvements!
+    <script>
+        const form = document.getElementById('calculatorForm');
+        const resultDiv = document.getElementById('result');
+        const resultValue = document.getElementById('resultValue');
+        const number1Input = document.getElementById('number1');
+        const number2Input = document.getElementById('number2');
 
-## License
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const num1 = parseFloat(number1Input.value);
+            const num2 = parseFloat(number2Input.value);
+            
+            // Validate inputs
+            if (isNaN(num1) || isNaN(num2)) {
+                showResult('Please enter valid numbers', true);
+                return;
+            }
+            
+            const sum = num1 + num2;
+            showResult(sum.toString(), false);
+        });
 
-This project is open source and available under the [MIT License](LICENSE).
+        function showResult(value, isError) {
+            resultValue.textContent = value;
+            resultDiv.style.display = 'block';
+            
+            // Reset classes
+            resultDiv.classList.remove('error', 'success');
+            
+            if (isError) {
+                resultDiv.classList.add('error');
+            } else {
+                resultDiv.classList.add('success');
+            }
+        }
 
----
+        // Add some interactive effects
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value && !isNaN(this.value)) {
+                    this.style.borderLeft = '4px solid #2ecc71';
+                } else {
+                    this.style.borderLeft = 'none';
+                }
+            });
+        });
 
-Made with ❤️ for simple, beautiful web calculators
+        // Clear result when inputs change
+        [number1Input, number2Input].forEach(input => {
+            input.addEventListener('input', function() {
+                if (resultDiv.style.display === 'block') {
+                    resultDiv.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
